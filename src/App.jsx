@@ -1,15 +1,15 @@
 import { useEffect, useState, useContext } from "react";
-import axios from "axios";
 import BeatLoader from "react-spinners/BeatLoader";
 
 import NotesForm from "./components/NotesForm";
 import Notes from "./components/Notes";
 import { NotesContext } from "./context";
+import axiosInstance from "./axios-config";
 
 const App = () => {
   const initialState = useContext(NotesContext);
   const [globalState, setGlobalState] = useState(initialState);
-  
+
   useEffect(() => {
     getAllNotes();
   }, [globalState.isNotesChanged]);
@@ -19,9 +19,7 @@ const App = () => {
       ...prevState,
       isLoading: true,
     }));
-    const response = await axios.get(
-      "https://doqbi8b2z5.execute-api.us-east-1.amazonaws.com/dev/notes"
-    );
+    const response = await axiosInstance.get('/notes');
     if (response?.status == 200 && response?.data) {
       setGlobalState((prevState) => ({
         ...prevState,
@@ -45,8 +43,6 @@ const App = () => {
     </div>
   );
 
-
-  
   return (
     <NotesContext.Provider value={{ globalState, setGlobalState }}>
       <div className="container">
@@ -54,7 +50,11 @@ const App = () => {
           <h1 className="text-primary p-4">Welcome to Notes App</h1>
           <NotesForm />
           <hr className="separator" />
-          {globalState.isLoading ? renderLoader() : <Notes notes={globalState.notes} />}
+          {globalState.isLoading ? (
+            renderLoader()
+          ) : (
+            <Notes notes={globalState.notes} />
+          )}
           <div></div>
         </div>
       </div>

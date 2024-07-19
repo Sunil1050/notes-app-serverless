@@ -1,9 +1,9 @@
 import { useContext, useState } from "react";
-import axios from "axios";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import { NotesContext } from "../context";
+import axiosInstance from "../axios-config";
 
 const EditModal = ({ note, showModal, handleCloseModal }) => {
   const { setGlobalState } = useContext(NotesContext);
@@ -19,13 +19,10 @@ const EditModal = ({ note, showModal, handleCloseModal }) => {
       isLoading: true,
     }));
 
-    const response = await axios.put(
-      `https://doqbi8b2z5.execute-api.us-east-1.amazonaws.com/dev/notes/${note.notesId}`,
-      {
-        title: editabledNote.title,
-        body: editabledNote.body,
-      }
-    );
+    const response = await axiosInstance.put(`/notes/${note.notesId}`, {
+      title: editabledNote.title,
+      body: editabledNote.body,
+    });
 
     if (response && response.status == 200) {
       setGlobalState((prevState) => ({

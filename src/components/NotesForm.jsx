@@ -1,9 +1,9 @@
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import axios from "axios";
 
 import { NotesContext } from "../context";
 import { useContext, useState } from "react";
+import axiosInstance from "../axios-config";
 
 const NotesForm = () => {
   const { setGlobalState } = useContext(NotesContext);
@@ -24,13 +24,11 @@ const NotesForm = () => {
       ...prevState,
       isLoading: true,
     }));
-    const response = await axios.post(
-      "https://doqbi8b2z5.execute-api.us-east-1.amazonaws.com/dev/notes",
-      {
-        title: title,
-        body: description,
-      }
-    );
+
+    const response = await axiosInstance.post("/notes", {
+      title: title,
+      body: description,
+    });
     if (response?.status == 200) {
       setGlobalState((prevState) => ({
         ...prevState,
