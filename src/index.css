@@ -1,0 +1,22 @@
+.App {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: 'Times New Roman', Times, serif;
+}
+
+.separator {
+  height: 2px;
+  background-color: black;
+  border: none;
+  width: 50vw;
+}
+
+.show-more-button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  outline: none;
+  color: #0275d8;
+  text-decoration: underline;
+}
