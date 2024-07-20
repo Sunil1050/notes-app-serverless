@@ -48,7 +48,6 @@ const App = () => {
       <div className="container">
         <div className="App">
           <h1 className="text-primary p-4">Welcome to Notes App</h1>
-          <p className="text-secondary">Testing S3 pipeline</p>
           <NotesForm />
           <hr className="separator" />
           {globalState.isLoading ? (
