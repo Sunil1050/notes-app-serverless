@@ -5,12 +5,11 @@ import Form from "react-bootstrap/Form";
 import { NotesContext } from "../context";
 import axiosInstance from "../axios-config";
 
-const EditModal = ({ note, showModal, handleCloseModal }) => {
-  const { setGlobalState } = useContext(NotesContext);
-  const [editabledNote, setEditedNote] = useState({
-    title: note.title,
-    body: note.body,
-  });
+const EditModal = () => {
+  const { globalState, setGlobalState } = useContext(NotesContext);
+  const [editabledNote, setEditedNote] = useState(globalState.editedNote);
+
+  const handleCloseModal = () => setGlobalState(prevState => ({...prevState, showModal: false}));
 
   const handleSave = async () => {
     handleCloseModal();
@@ -19,7 +18,7 @@ const EditModal = ({ note, showModal, handleCloseModal }) => {
       isLoading: true,
     }));
 
-    const response = await axiosInstance.put(`/notes/${note.notesId}`, {
+    const response = await axiosInstance.put(`/notes/${editabledNote.notesId}`, {
       title: editabledNote.title,
       body: editabledNote.body,
     });
@@ -34,7 +33,7 @@ const EditModal = ({ note, showModal, handleCloseModal }) => {
 
   return (
     <Modal
-      show={showModal}
+      show={globalState.showModal}
       onHide={handleCloseModal}
       backdrop="static"
       keyboard={false}
