@@ -42,7 +42,7 @@ const App = () => {
       />
     </div>
   );
-
+  
   return (
     <NotesContext.Provider value={{ globalState, setGlobalState }}>
       <div className="container">
