@@ -2,14 +2,29 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  font-family: 'Times New Roman', Times, serif;
+  font-family: "Times New Roman", Times, serif;
+}
+
+.notes-form {
+  @media screen and (min-width: 768px) {
+    width: 40vw;
+  }
+
+  @media screen and (max-width: 768px) {
+    width: 80vw;
+  }
 }
 
 .separator {
   height: 2px;
   background-color: black;
   border: none;
-  width: 50vw;
+  @media screen and (min-width: 768px) {
+    width: 56vw;
+  }
+  @media screen and (max-width: 768px) {
+    width: 90vw;
+  }
 }
 
 .show-more-button {
@@ -19,4 +34,16 @@
   outline: none;
   color: #0275d8;
   text-decoration: underline;
+}
+
+.notes-list {
+  list-style-type: none;
+  padding: 0;
+  @media screen and (min-width: 768px) {
+    width: 50vw;
+  }
+
+  @media screen and (max-width: 768px) {
+    width: 80vw;
+  }
 }
