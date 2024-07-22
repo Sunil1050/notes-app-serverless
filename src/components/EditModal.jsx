@@ -3,38 +3,15 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import { NotesContext } from "../context";
-import axiosInstance from "../axios-config";
 
 const EditModal = () => {
-  const { globalState, setGlobalState } = useContext(NotesContext);
-  const [editabledNote, setEditedNote] = useState(globalState.editedNote);
-
-  const handleCloseModal = () => setGlobalState(prevState => ({...prevState, showModal: false}));
-
-  const handleSave = async () => {
-    handleCloseModal();
-    setGlobalState((prevState) => ({
-      ...prevState,
-      isLoading: true,
-    }));
-
-    const response = await axiosInstance.put(`/notes/${editabledNote.notesId}`, {
-      title: editabledNote.title,
-      body: editabledNote.body,
-    });
-
-    if (response && response.status == 200) {
-      setGlobalState((prevState) => ({
-        ...prevState,
-        isNotesChanged: !prevState.isNotesChanged,
-      }));
-    }
-  };
+  const { store, closeModal, saveNote } = useContext(NotesContext);
+  const [editabledNote, setEditedNote] = useState(store.editedNote);
 
   return (
     <Modal
-      show={globalState.showModal}
-      onHide={handleCloseModal}
+      show={store.showModal}
+      onHide={closeModal}
       backdrop="static"
       keyboard={false}
       centered
@@ -74,10 +51,10 @@ const EditModal = () => {
         </Form>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={handleCloseModal}>
+        <Button variant="secondary" onClick={closeModal}>
           Close
         </Button>
-        <Button variant="primary" onClick={handleSave}>
+        <Button variant="primary" onClick={() => saveNote(editabledNote)}>
           Save
         </Button>
       </Modal.Footer>
