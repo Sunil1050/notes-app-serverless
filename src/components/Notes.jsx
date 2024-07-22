@@ -3,42 +3,16 @@ import Card from "react-bootstrap/Card";
 import { CiEdit } from "react-icons/ci";
 import { MdDelete } from "react-icons/md";
 import { NotesContext } from "../context";
-import EditModal from "./EditModal";
-import axiosInstance from "../axios-config";
+import EditModal from './EditModal';
 
 const Notes = ({ notes }) => {
-  const { globalState, setGlobalState } = useContext(NotesContext);
-  const handleShowModal = () =>
-    setGlobalState((prevState) => ({ ...prevState, showModal: true }));
+  const { store, deleteNote, editNote } = useContext(NotesContext);
 
   let iconStyles = {
     background: "transparent",
     fontSize: "40px",
     margin: "0px 10px",
     cursor: "pointer",
-  };
-
-  const handleDeleteNote = async (noteId) => {
-    setGlobalState((prevState) => ({
-      ...prevState,
-      isLoading: true,
-    }));
-    const response = await axiosInstance.delete(`/notes/${noteId}`);
-    if (response && response.status == 200) {
-      setGlobalState((prevState) => ({
-        ...prevState,
-        isNotesChanged: !prevState.isNotesChanged,
-      }));
-    }
-  };
-
-  const onEditNote = (note) => {
-    const noteId = note.notesId;
-    handleShowModal();
-    setGlobalState((prevState) => ({
-      ...prevState,
-      editedNote: prevState.notes.find((note) => note.notesId === noteId),
-    }));
   };
 
   const renderNotes = () => {
@@ -50,20 +24,18 @@ const Notes = ({ notes }) => {
               <li key={note.notesId}>
                 <Card style={{ margin: "14px 0px" }}>
                   <Card.Body className="d-flex">
-                    <div style={{width: '85%'}}>
+                    <div style={{ width: "85%" }}>
                       <Card.Title>{note.title}</Card.Title>
-                      <Card.Text>
-                        {note.body}
-                      </Card.Text>
+                      <Card.Text>{note.body}</Card.Text>
                     </div>
-                    <div className="align-self-center" style={{width: '15%'}}>
+                    <div className="align-self-center" style={{ width: "15%" }}>
                       <CiEdit
                         style={iconStyles}
-                        onClick={() => onEditNote(note)}
+                        onClick={() => editNote(note)}
                       />
                       <MdDelete
                         style={iconStyles}
-                        onClick={() => handleDeleteNote(note.notesId)}
+                        onClick={() => deleteNote(note.notesId)}
                       />
                     </div>
                   </Card.Body>
@@ -72,7 +44,7 @@ const Notes = ({ notes }) => {
             ))}
           </ul>
 
-          {globalState.showModal && <EditModal />}
+          {store.showModal && <EditModal />}
         </>
       );
     }

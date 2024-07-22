@@ -4,10 +4,9 @@ import { useForm } from "react-hook-form";
 
 import { NotesContext } from "../context";
 import { useContext, useState } from "react";
-import axiosInstance from "../axios-config";
 
 const NotesForm = () => {
-  const { setGlobalState } = useContext(NotesContext);
+  const { addNote } = useContext(NotesContext);
   const [noteName, setNoteName] = useState("");
   const [noteDescription, setNoteDescription] = useState("");
   const {
@@ -22,23 +21,6 @@ const NotesForm = () => {
 
       setNoteName("");
       setNoteDescription("");
-    }
-  };
-  const addNote = async (title, description) => {
-    setGlobalState((prevState) => ({
-      ...prevState,
-      isLoading: true,
-    }));
-
-    const response = await axiosInstance.post("/notes", {
-      title: title,
-      body: description,
-    });
-    if (response?.status == 200) {
-      setGlobalState((prevState) => ({
-        ...prevState,
-        isNotesChanged: !prevState.isNotesChanged,
-      }));
     }
   };
 
