@@ -1,13 +1,17 @@
-import { useContext } from "react";
 import Card from "react-bootstrap/Card";
 import { CiEdit } from "react-icons/ci";
 import { MdDelete } from "react-icons/md";
-import { NotesContext } from "../context";
-import EditModal from './EditModal';
+import EditModal from "./EditModal";
 
-const Notes = ({ notes }) => {
-  const { store, deleteNote, editNote } = useContext(NotesContext);
-
+const Notes = ({
+  notes,
+  showModal,
+  deleteNote,
+  editNoteHandler,
+  editedNote,
+  saveNote,
+  closeModal,
+}) => {
   let iconStyles = {
     background: "transparent",
     fontSize: "40px",
@@ -31,7 +35,7 @@ const Notes = ({ notes }) => {
                     <div className="align-self-center" style={{ width: "15%" }}>
                       <CiEdit
                         style={iconStyles}
-                        onClick={() => editNote(note)}
+                        onClick={() => editNoteHandler(note)}
                       />
                       <MdDelete
                         style={iconStyles}
@@ -44,7 +48,14 @@ const Notes = ({ notes }) => {
             ))}
           </ul>
 
-          {store.showModal && <EditModal />}
+          {showModal && (
+            <EditModal
+              showModal={showModal}
+              editedNote={editedNote}
+              saveNote={saveNote}
+              closeModal={closeModal}
+            />
+          )}
         </>
       );
     }

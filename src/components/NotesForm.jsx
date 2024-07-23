@@ -2,11 +2,9 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { useForm } from "react-hook-form";
 
-import { NotesContext } from "../context";
-import { useContext, useState } from "react";
+import { useState } from "react";
 
-const NotesForm = () => {
-  const { addNote } = useContext(NotesContext);
+const NotesForm = ({ addNote }) => {
   const [noteName, setNoteName] = useState("");
   const [noteDescription, setNoteDescription] = useState("");
   const {

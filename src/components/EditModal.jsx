@@ -1,16 +1,14 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
-import { NotesContext } from "../context";
 
-const EditModal = () => {
-  const { store, closeModal, saveNote } = useContext(NotesContext);
-  const [editabledNote, setEditedNote] = useState(store.editedNote);
+const EditModal = ({ showModal, editedNote, saveNote, closeModal }) => {
+  const [editabledNote, setEditedNote] = useState(editedNote);
 
   return (
     <Modal
-      show={store.showModal}
+      show={showModal}
       onHide={closeModal}
       backdrop="static"
       keyboard={false}
